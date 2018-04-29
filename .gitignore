@@ -1,0 +1,5 @@
+.DS_Store
+*.png
+*.docx
+*.graphml
+data/
