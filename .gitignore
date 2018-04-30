@@ -1,5 +1,7 @@
 .DS_Store
-*.png
-*.docx
-*.graphml
 data/
+
+*.docx
+*.gephi
+*.graphml
+*.png
