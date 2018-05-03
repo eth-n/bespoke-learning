@@ -1,5 +1,4 @@
 import networkx as nx
-import matplotlib.pyplot as plt
 from operator import itemgetter
 
 
@@ -14,14 +13,45 @@ def load_graph(nw_name):
 
 
 '''
-gets a list of tuples of node ids and count of neighbors sorted by
-neighbor count with highest at the front of the returned list
+gets a list of tuples of node ids and count of neighbors sorted hi-lo by
+in-degree count
 '''
-def degree_top_k(G, k):
+def in_degree_top_k(G, k):
     if (k <= 0):
-        return 'please use k>0'
+        print('please use k>0')
+        return
 
-    return sorted(G.degree_iter(),key=itemgetter(1),reverse=True)[:k]
+    descending = sorted(G.in_degree().items(), key=itemgetter(1), reverse=True)
+    k = min(k, len(descending))
+    return descending[:k]
+
+
+'''
+gets a list of tuples of node ids and count of neighbors sorted hi-lo by
+out-degree
+'''
+def out_degree_top_k(G, k):
+    if (k <= 0):
+        print('please use k>0')
+        return
+
+    descending = sorted(G.out_degree().items(), key=itemgetter(1), reverse=True)
+    k = min(k, len(descending))
+    return descending[:k]
+
+'''
+gets a list of node ids sorted by neighbor count with nodes
+with highest count at the front of the returned lists
+
+Returns a list of integer ids
+'''
+def in_degree_top_k_ids(G, k):
+    if (k <= 0):
+        print('please use k>0')
+        return
+
+    top_tups = in_degree_top_k(G, k)
+    return [int(tup[0]) for tup in top_tups]
 
 
 '''
@@ -30,9 +60,10 @@ with highest count at the front of the returned lists
 
 Returns a list of integer ids
 '''
-def degree_top_k_ids(G, k):
+def out_degree_top_k_ids(G, k):
     if (k <= 0):
-        return 'please use k>0'
+        print('please use k>0')
+        return
 
-    top_tups = degree_top_k(G, k)
+    top_tups = out_degree_top_k(G, k)
     return [int(tup[0]) for tup in top_tups]
