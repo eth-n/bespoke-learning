@@ -32,47 +32,33 @@ Functions for graphing k high citation papers vs inbound edges from distinct
 nodes
 '''
 def graph_distinct_reachable(G, k=10):
-    if isinstance(k, list):
-        for k_val in k:
-            y = distinct_reachable(G, k_val)
-            x = [n for n in range(1, k_val+1)]
-            plt.bar(x, y)
-            plt.title('Papers Citing any of Top-K Most Cited')
-            plt.xlabel('K')
-            plt.ylabel('Distinct Citers')
-            plt.savefig('reachable_'+str(k_val)+'.png')
-    else:
-        y = distinct_reachable(G, k)
-        x = [n for n in range(1, k+1)]
+    if isinstance(k, int):
+        k = [k]
+    for k_val in k:
+        y = distinct_reachable(G, k_val)
+        x = [n for n in range(1, k_val+1)]
         plt.bar(x, y)
         plt.title('Papers Citing any of Top-K Most Cited')
         plt.xlabel('K')
         plt.ylabel('Distinct Citers')
-        plt.savefig('reachable_'+str(k)+'.png')
+        plt.savefig('reachable_'+str(k_val)+'.png')
 
 
 def graph_distinct_reachable_fraction(G, k=10):
     num_nodes = G.order()
-    if isinstance(k, list):
-        for k_val in k:
-            y = [count/num_nodes for count in distinct_reachable(G, k_val)]
-            x = [n for n in range(1, k_val+1)]
-            plt.bar(x, y)
-            plt.title('Fraction of Papers Citing any of Top-K Most Cited')
-            plt.xlabel('K')
-            plt.ylabel('Fraction of Papers')
-            plt.savefig('frac_reachable_'+str(k_val)+'.png')
-    else:
+    if isinstance(k, int):
+        k = [k]
+    for k_val in k:
         y = [count/num_nodes for count in distinct_reachable(G, k_val)]
-        x = [n for n in range(1, k+1)]
+        x = [n for n in range(1, k_val+1)]
         plt.bar(x, y)
         plt.title('Fraction of Papers Citing any of Top-K Most Cited')
         plt.xlabel('K')
         plt.ylabel('Fraction of Papers')
-        plt.savefig('frac_reachable_'+str(k)+'.png')
+        plt.savefig('frac_reachable_'+str(k_val)+'.png')
 
 
 G = shared.load_graph('HepPh')
 print(nx.info(G))
-# print(distinct_reachable(G, 10))
-# graph_distinct_reachable_fraction(G, [10, 50, 100, 1000]) #, G.order()])
+print(distinct_reachable(G, 10))
+graph_distinct_reachable_fraction(G) #, [10, 50, 100, 1000]) #, G.order()])
